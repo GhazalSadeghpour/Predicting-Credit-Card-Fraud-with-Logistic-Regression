@@ -14,19 +14,22 @@ print(transactions.head())
 print(transactions.info())
 
 # How many fraudulent transactions?
-
+print(transactions[transactions["isFraud"] == 1].shape[0])
 
 # Summary statistics on amount column
+print(transactions[["amount"]].describe())
 
 
 # Create isPayment field
-
+transactions['isPayment'] = np.where((transactions['type'] ==  'DEBIT') | (transactions['type'] == 'PAYMENT'), 1, 0)
 
 # Create isMovement field
-
+transactions['isMovement'] = np.where((
+  (transactions['type'] ==  'CASH_OUT') | (transactions['type'] ==  'TRANSFER')
+),1,0)
 
 # Create accountDiff field
-
+transactions['accountDiff'] = transactions['oldbalanceDest'] - transactions['oldbalanceOrg']
 
 # Create features and label variables
 
