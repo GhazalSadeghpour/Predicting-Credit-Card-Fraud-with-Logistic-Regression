@@ -67,15 +67,15 @@ transaction2 = np.array([98765.43, 1.0, 0.0, 8524.75])
 transaction3 = np.array([543678.31, 1.0, 0.0, 510025.5])
 
 # Create a new transaction
-
+transaction4 = np.array([600000.31, 0.0, 1.0, 68999999.0])
 
 # Combine new transactions into a single array
-
+sample_transactions = np.stack((transaction1,transaction2,transaction3,transaction4))
 
 # Normalize the new transactions
-
+sample_transactions = ssc.transform(sample_transactions)
 
 # Predict fraud on the new transactions
-
-
+print(lr.predict(sample_transactions))
+print(lr.predict_proba(sample_transactions))
 # Show probabilities on the new transactions
