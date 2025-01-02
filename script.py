@@ -32,25 +32,34 @@ transactions['isMovement'] = np.where((
 transactions['accountDiff'] = transactions['oldbalanceDest'] - transactions['oldbalanceOrg']
 
 # Create features and label variables
+features = ['amount', 'isPayment', 'isMovement', 'accountDiff']
 
+label = 'isFraud'
 
 # Split dataset
+X_train, X_test, y_train, y_test = train_test_split(transactions[features], transactions[label], test_size=0.3)
 
 
 # Normalize the features variables
-
+ssc = StandardScaler()
+X_train_scaled = ssc.fit_transform(X_train) 
+X_test_scaled = ssc.transform(X_test)  
 
 # Fit the model to the training data
-
+lr = LogisticRegression()
+lr.fit(X_train_scaled, y_train)
 
 # Score the model on the training data
+training_score = lr.score(X_train_scaled, y_train)
+print(f"Training score: {training_score}")
 
 
 # Score the model on the test data
-
+test_score = lr.score(X_test_scaled, y_test)
+print(f"Test score:  {test_score}")
 
 # Print the model coefficients
-
+print(f"Model coefficients: {lr.coef_}")
 
 # New transaction data
 transaction1 = np.array([123456.78, 0.0, 1.0, 54670.1])
